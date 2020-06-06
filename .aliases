@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# Adding colours reference: https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+export GREEN_COLOUR="\033[0;32m"
+export RED_COLOUR="\033[0;31m"
+export YELLOW_COLOUR="\033[0;33m"
+export BLUE_COLOUR="\033[0;34m"
+export PURPLE_COLOUR="\033[0;35m"
+export GRAY_COLOUR="\033[0;37m"
+export NO_COLOUR="\033[0m"
+# Detect which ls flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU ls
+  colorflag="--color"
+else # OS X ls
+  colorflag="-G"
+fi
+alias cls="clear"
+# List all files colorized in long format
+
+alias l='colorls --group-directories-first --almost-all'
+alias ll='colorls --group-directories-first --almost-all --long' #
+
+alias ll='ls -lh'
+# List all files colorized in long format, including dot files
+alias la="ls -lha"
+
+# List only directories
+alias lsd='ls -l | grep "^d"'
+# Always use color output for ls
+alias ls="command ls ${colorflag}"
+export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
+# Development Paths
+alias projects='cd ~/dev'
+
+alias git_alias_list='git config --get-regex alias'
+alias git-rebase-latest="git rebase -p origin HEAD --rebase && git rebase -p origin/development"
+alias girc='git rebase --continue'
+alias gira='git rebase --abort'
+alias gird='git rebase -p origin/development'
+# Docker
+alias db="docker build"
+alias drm="docker rm"
+alias drmi="docker rmi"
+alias dps="docker ps"
+alias di="docker images"
+alias dc="docker-compose"
+alias dstack="docker stack"
+alias dnet="docker network"
+alias dnode="docker node"
+
+alias dcb="docker-compose build"
+alias dcu="docker-compose up"
+alias dcub="docker-compose up --build"
+alias dcubd="docker-compose up --build -d"
+alias dcd="docker-compose down"
+alias dcs="docker-compose stop"
+alias dcp="docker-compose pull"
+alias dlb="docker exec -t -i docker_backend_1 bash"
+alias dls="docker container ls"
+alias diexc="docker run --rm -ti -v ${pwd}:/usr/src/app"
+
+
+# Rails
+alias rails-console='clear; bin/rails c --debugger'
+alias routes-list='clear; bin/rake routes'
+alias rs='bundle exec rspec --color --format progress --profile --'
+alias rs5='DEPENDENCIES_NEXT=1 bundle exec rspec --color --format progress --profile --'
+alias bi5='DEPENDENCIES_NEXT=1 bundle install'
+alias bu5='DEPENDENCIES_NEXT=1 bundle update'
+alias sidekiq='bundle exec sidekiq'
+alias rubocop='bundle exec rubocop'
+alias rails-web="bundle exec puma -C config/puma.rb"
+alias rails-db-refresh-test="RAILS_ENV=test bin/rake db:drop && RAILS_ENV=test bin/rake db:create && RAILS_ENV=test bin/rake db:migrate"
+alias rails-db-setup='bin/setup'
+alias db-setup-test-rails5='RAILS_ENV=test DEPENDENCIES_NEXT=1 bin/setup'
+alias db-setup-rails5='DEPENDENCIES_NEXT=1 bin/setup'
+alias db-setup-test='RAILS_ENV=test bin/setup'
+alias db-migrate-test='RAILS_ENV=test bin/rake db:migrate'
+alias db-migrate='bin/rake db:migrate'
+alias rds="rails-db-setup"
+alias rdst="RAILS_ENV=test rails-db-setup"
+alias rds5="DEPENDENCIES_NEXT=1 rails-db-setup"
+alias rdst5="DEPENDENCIES_NEXT=1 RAILS_ENV=test rails-db-setup"
+alias rails-s="kill-port 3000 && bundle exec puma -C config/puma.rb"
+alias rails-c="bin/rails c --sandbox"
+alias rails-5sc="DEPENDENCIES_NEXT=1 bundle exec rails c --sandbox"
+alias rc5="DEPENDENCIES_NEXT=1 bundle exec rails c"
+alias rct5="RAILS_ENV=test DEPENDENCIES_NEXT=1 bundle exec rails c"
+
+# Rubymine
+alias mine='open -na "RubyMine.app"' # opens files in current project or a temp project
+
+# ember
+alias ember-test="ember test --serve --watch=node"
+alias ember-build="ember build"
+alias ember-serve="ember serve --watcher=polling"
+alias ember-deploy-staging="ember deploy staging --activate"
+alias ember-staging-list-deployments="ember deploy:list staging"
+
+alias et="ember-test"
+alias eb="ember-build"
+alias es="ember-serve"
+alias eds="ember-deploy-staging"
+alias edsl="ember-staging-list-deployments"
+# Processes
+alias kill-rails='kill-port 3000'
+# JS Development
+alias mocha='mocha --require specs/spec-helper.js --require @babel/register'
+
+alias eslint="eslint --fix --quiet"
+alias eslint-truleads="eslint app/react"
+
+# JS Testing
+alias teaspoon="bin/teaspoon --server puma"
+alias teaspoon-web="open http://localhost:3000/teaspoon"
+alias cy="yarn run cypress:open"
+alias cyr="yarn run cypress:run"
+# React Storybook
+alias storybook='yarn run storybook'
+alias storybook-build='yarn run storybook-build'
+alias sb='storybook'
+alias sbb='storybook-build'
+# Open files
+alias o-aliases='mine ~/.aliases'
+# truLEADS
+alias heroku-remote-rails-console='heroku run rails c --remote staging'
+# Gitlab
+alias glr='gitlab-runner exec docker'
+# Jest
+alias jest='jest --changedFilesWithAncestor'
